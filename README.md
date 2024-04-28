@@ -6,7 +6,8 @@
 また、`include/config.sample.h`をコピーして同じ階層に`config.h`を作成してください。
 
 ## 機能
-気温(摂氏)、湿度(%)、不快指数、現地気圧(hPa)、計測高度(m)、海面気圧(hPa)を画面に表示します。
+気温(摂氏)、湿度(%)、不快指数、現地気圧(hPa)、計測高度(m)、海面気圧(hPa)、Wi-Fi接続情報を画面に表示します。
+Wi-Fiに接続するには`include/config.h`にSSID、パスワードを設定する必要があります。
 
 ## 動作確認済みのM5Stackシリーズ
 - M5Stack GRAY Development Kit
