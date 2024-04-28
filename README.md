@@ -8,7 +8,8 @@
 また、`include/config.sample.h`をコピーして同じ階層に`config.h`を作成してください。
 
 ## 機能
-気温(摂氏)、湿度(%)、不快指数、現地気圧(hPa)、計測高度(m)、海面気圧(hPa)、Wi-Fi接続情報を画面に表示します。
+気温(摂氏)、湿度(%)、不快指数、現地気圧(hPa)、観測高度(m)、海面気圧(hPa)、Wi-Fi接続情報を画面に表示します。
+
 Wi-Fiに接続するには`include/config.h`にSSID、パスワードを設定する必要があります。
 
 ## 動作確認済みのM5Stackシリーズ
@@ -18,6 +19,21 @@ Wi-Fiに接続するには`include/config.h`にSSID、パスワードを設定�
   - `env:m5stack-atoms3`
 - M5Paper(センサはPORT. Aに接続してください)
   - `env:m5stack-fire`
+
+## 設定項目
+### `INTERVAL_TO_OBSERVE_MS`(観測間隔、整数値)
+気温、湿度、不快指数、観測高度、現地/海面気圧の観測間隔をミリ秒で設定します
+
+### `WIFI_SSID`(Wi-FiルータSSID、文字列)
+接続したいWi-FiルータのSSIDを設定します
+
+### `WIFI_PASSWORD`(Wi-Fiパスワード、文字列)
+Wi-Fiに接続するためのパスワードを設定します
+
+### `WIFI_CONNENTION_ATTEMPT_LIMIT`(Wi-Fi接続リトライ回数の上限、整数値)
+Wi-Fiへの接続をリトライする回数を設定します
+
+環境に応じて調整してください
 
 ## ライセンス
 [MIT](/LICENSE)

@@ -9,14 +9,14 @@ BMP280 bmp;
 
 HumidityIndex humidIdx; // 不快指数オブジェクト
 
-// 計測データ
-struct MeasuredData {
+// 観測データ
+struct ObservedData {
   float cTemp; // 気温(摂氏)
   float humidity; // 湿度(%)
   float localBarometric; // 現地気圧(hPa)
-  float altitude; // 計測高度(m)
+  float altitude; // 観測高度(m)
 };
-MeasuredData data;
+ObservedData data;
 
 int wifiAttempts = 1; // Wi-Fi接続試行回数
 
@@ -146,5 +146,5 @@ void loop() {
   }
 
   displayData();
-  delay(1000);
+  delay(INTERVAL_TO_OBSERVE_MS);
 }
