@@ -12,7 +12,7 @@ struct MeasuredData {
   float cTemp; // 気温(摂氏)
   float humidity; // 湿度(%)
   float localBarometric; // 現地気圧(hPa)
-  float altitude; // 高度(m)
+  float altitude; // 計測高度(m)
 };
 MeasuredData data;
 
@@ -42,8 +42,8 @@ void displayData() {
   M5.Display.print(data.localBarometric);
   M5.Display.println("hPa");
 
-  // 高度(m)
-  M5.Display.print("高度: ");
+  // 計測高度(m)
+  M5.Display.print("計測高度: ");
   M5.Display.print(data.altitude);
   M5.Display.println("m");
 
