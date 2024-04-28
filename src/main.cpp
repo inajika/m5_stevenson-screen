@@ -66,6 +66,8 @@ void setup() {
       M5.Display.setTextSize(2.5);
       break;
     default:
+      M5.Display.setFont(&fonts::lgfxJapanGothic_16);
+      M5.Display.setTextSize(2.5);
       break;
   }
 
