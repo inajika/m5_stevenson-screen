@@ -33,6 +33,10 @@ void displayData() {
   M5.Display.print(data.humidity);
   M5.Display.println("%");
 
+  // 不快指数
+  M5.Display.print("不快指数: ");
+  M5.Display.println(humidIdx.calc(data.cTemp, data.humidity));
+
   // 気圧(hPa)
   M5.Display.print("気圧: ");
   M5.Display.print(data.barometric / 100);
@@ -42,10 +46,6 @@ void displayData() {
   M5.Display.print("高度: ");
   M5.Display.print(data.altitude);
   M5.Display.println("m");
-
-  // 不快指数
-  M5.Display.print("不快指数: ");
-  M5.Display.println(humidIdx.calc(data.cTemp, data.humidity));
 
   M5.Display.endWrite();
 }
@@ -59,6 +59,11 @@ void setup() {
       // AtomS3
       M5.Display.setFont(&fonts::lgfxJapanGothic_12);
       M5.Display.setTextSize(1.4);
+      break;
+    case m5::board_t::board_M5Paper:
+      // M5Paper
+      M5.Display.setFont(&fonts::lgfxJapanGothic_20);
+      M5.Display.setTextSize(2.5);
       break;
     default:
       break;
