@@ -23,7 +23,7 @@ int wifiAttempts = 1; // Wi-Fi接続試行回数
 // データ表示
 void displayData() {
   M5.Display.setCursor(0, 0);
-  M5.Display.setTextColor(TFT_WHITE);
+  M5.Display.setTextColor(m5::board_t::board_M5Paper ? TFT_BLACK : TFT_WHITE);
   M5.Display.startWrite();
   M5.Display.fillScreen(M5.Display.isEPD() ? TFT_WHITE : TFT_BLACK);
   
@@ -61,7 +61,7 @@ void displayData() {
   if (WiFi.isConnected()) {
     M5.Display.setTextColor(TFT_GREEN);
     M5.Display.println("Wi-Fi接続中");
-    M5.Display.setTextColor(TFT_WHITE);
+    M5.Display.setTextColor(m5::board_t::board_M5Paper ? TFT_BLACK : TFT_WHITE);
     M5.Display.println(WiFi.localIP());
   } else {
     M5.Display.setTextColor(TFT_RED);
