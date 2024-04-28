@@ -1,11 +1,13 @@
+#include <WiFi.h>
 #include <M5Unified.h>
 #include <M5UnitENV.h>
 #include <HumidityIndex.h>
+#include <config.h>
 
 SHT4X sht4;
 BMP280 bmp;
 
-HumidityIndex humidIdx;
+HumidityIndex humidIdx; // 不快指数オブジェクト
 
 // 計測データ
 struct MeasuredData {
@@ -16,9 +18,12 @@ struct MeasuredData {
 };
 MeasuredData data;
 
+int wifiAttempts = 1; // Wi-Fi接続試行回数
+
 // データ表示
 void displayData() {
   M5.Display.setCursor(0, 0);
+  M5.Display.setTextColor(TFT_WHITE);
   M5.Display.startWrite();
   M5.Display.fillScreen(M5.Display.isEPD() ? TFT_WHITE : TFT_BLACK);
   
@@ -52,6 +57,17 @@ void displayData() {
   M5.Display.print(bmp.seaLevelForAltitude(data.altitude, data.localBarometric));
   M5.Display.println("hPa");
 
+  // ネットワーク接続状況表示
+  if (WiFi.isConnected()) {
+    M5.Display.setTextColor(TFT_GREEN);
+    M5.Display.println("Wi-Fi接続中");
+    M5.Display.setTextColor(TFT_WHITE);
+    M5.Display.println(WiFi.localIP());
+  } else {
+    M5.Display.setTextColor(TFT_RED);
+    M5.Display.println("Wi-Fi接続なし");
+  }
+
   M5.Display.endWrite();
 }
 
@@ -72,7 +88,7 @@ void setup() {
       break;
     default:
       M5.Display.setFont(&fonts::lgfxJapanGothic_16);
-      M5.Display.setTextSize(2);
+      M5.Display.setTextSize(1.8);
       break;
   }
 
@@ -96,6 +112,17 @@ void setup() {
                   BMP280::SAMPLING_X16,    /* Pressure oversampling */
                   BMP280::FILTER_X16,      /* Filtering. */
                   BMP280::STANDBY_MS_500); /* Standby time. */
+  
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  while (WiFi.status() != WL_CONNECTED) {
+    wifiAttempts++;
+    M5.Display.print("*");
+    delay(200);
+    if (WIFI_CONNENTION_ATTEMPT_LIMIT <= wifiAttempts) {
+      // 接続試行回数が上限に達するとそれ以上Wi-Fiに接続しようとしない
+      break;
+    }
+  }
 }
 
 void loop() {
