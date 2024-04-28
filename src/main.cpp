@@ -11,7 +11,7 @@ HumidityIndex humidIdx;
 struct MeasuredData {
   float cTemp; // 気温(摂氏)
   float humidity; // 湿度(%)
-  float barometric; // 気圧(Pa)
+  float localBarometric; // 現地気圧(hPa)
   float altitude; // 高度(m)
 };
 MeasuredData data;
@@ -37,15 +37,20 @@ void displayData() {
   M5.Display.print("不快指数: ");
   M5.Display.println(humidIdx.calc(data.cTemp, data.humidity));
 
-  // 気圧(hPa)
-  M5.Display.print("気圧: ");
-  M5.Display.print(data.barometric / 100);
+  // 現地気圧(hPa)
+  M5.Display.print("現地気圧: ");
+  M5.Display.print(data.localBarometric);
   M5.Display.println("hPa");
 
   // 高度(m)
   M5.Display.print("高度: ");
   M5.Display.print(data.altitude);
   M5.Display.println("m");
+
+  // 海面気圧(hPa)
+  M5.Display.print("海面気圧: ");
+  M5.Display.print(bmp.seaLevelForAltitude(data.altitude, data.localBarometric));
+  M5.Display.println("hPa");
 
   M5.Display.endWrite();
 }
@@ -58,7 +63,7 @@ void setup() {
     case m5::board_t::board_M5AtomS3:
       // AtomS3
       M5.Display.setFont(&fonts::lgfxJapanGothic_12);
-      M5.Display.setTextSize(1.4);
+      M5.Display.setTextSize(1.1);
       break;
     case m5::board_t::board_M5Paper:
       // M5Paper
@@ -67,7 +72,7 @@ void setup() {
       break;
     default:
       M5.Display.setFont(&fonts::lgfxJapanGothic_16);
-      M5.Display.setTextSize(2.5);
+      M5.Display.setTextSize(2);
       break;
   }
 
@@ -106,10 +111,10 @@ void loop() {
     if (data.cTemp == 0.0f) {
       data.cTemp = bmp.readTemperature();
     }
-    data.barometric = bmp.readPressure();
+    data.localBarometric = bmp.readPressure() * 0.01f; // 計測生データはPaのため、ここでhPaに変換
     data.altitude = bmp.readAltitude();
   } else {
-    data.barometric = 0.0f;
+    data.localBarometric = 0.0f;
     data.altitude = 0.0f;
   }
 
