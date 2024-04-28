@@ -18,3 +18,6 @@ Wi-Fiに接続するには`include/config.h`にSSID、パスワードを設定�
   - `env:m5stack-atoms3`
 - M5Paper(センサはPORT. Aに接続してください)
   - `env:m5stack-fire`
+
+## ライセンス
+[MIT](/LICENSE)
